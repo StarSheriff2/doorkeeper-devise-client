@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
   devise :omniauthable, omniauth_providers: %i[doorkeeper]
 
   def self.from_omniauth(auth)
+    return nil unless auth.info.email && auth.uid
+
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
       user.name = auth.info.name
+      user.user_type = auth.info.user_type
     end
   end
 
@@ -44,5 +47,18 @@ class User < ActiveRecord::Base
       update doorkeeper_refresh_token: @doorkeeper.refresh_token, doorkeeper_expires_at: @doorkeeper.expires_at, doorkeeper_access_token: @doorkeeper.token
     end
     @doorkeeper
+  end
+
+  def provider_logout_url
+    base_url = ENV["DOORKEEPER_APP_URL"]
+
+    case user_type
+    when "JobSeeker"
+      "#{base_url}/job-seekers/account/logout"
+    when "User"
+      "#{base_url}/account/logout"
+    else
+      base_url # fallback to provider root
+    end
   end
 end

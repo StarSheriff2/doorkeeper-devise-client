@@ -8,12 +8,14 @@ module OmniAuth
              authorize_path: "/oauth/authorize"
 
       uid do
-        raw_info["id"]
+        raw_info["user"]["resource_owner_id"]
       end
 
       info do
         {
-          email: raw_info["email"]
+          email: raw_info["user"]["email"],
+          name: raw_info["user"]["email"], # fallback if name isn't returned
+          user_type: raw_info["user"]["resource_owner_type"]
         }
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_26_093125) do
+ActiveRecord::Schema.define(version: 2025_07_01_232735) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2022_07_26_093125) do
     t.string "doorkeeper_access_token"
     t.string "doorkeeper_refresh_token"
     t.datetime "doorkeeper_expires_at"
+    t.string "user_type"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

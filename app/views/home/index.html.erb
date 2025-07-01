@@ -11,6 +11,10 @@
     <%= link_to "My Credentials", explore_api_path(:me, format: :json), class: "btn btn-primary data-explore" %>
     <%= link_to "Projects", explore_api_path(:projects, format: :json), class: "btn btn-secondary data-explore" %>
     <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
+    <% if current_user&.provider_logout_url.present? %>
+      <%= link_to "Sign out fully (client + provider)", current_user.provider_logout_url, class: "btn btn-danger" %>
+    <% end %>
+
   </p>
 
   <p>You are logged in as <%= current_user.email %></p>
