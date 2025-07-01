@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.6.3"
+ruby "2.6.10"
 
 gem "listen"
 gem "puma", "~> 6.4"
@@ -22,7 +22,7 @@ end
 
 group :development, :test do
   gem "pry-byebug"
-  gem "sqlite3", "~> 1.6.9"
+  gem "sqlite3", "~> 1.5.4"
 end
 
 group :production do

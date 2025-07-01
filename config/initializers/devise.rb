@@ -261,10 +261,13 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :doorkeeper,
-                  ENV['DOORKEEPER_APP_ID'],
-                  ENV['DOORKEEPER_APP_SECRET'],
-                  scope: 'read',
-                  strategy_class: OmniAuth::Strategies::Doorkeeper
+                  ENV.fetch("DOORKEEPER_APP_ID"),
+                  ENV.fetch("DOORKEEPER_APP_SECRET"),
+                  client_options: {
+                    site: ENV.fetch("DOORKEEPER_APP_URL"),
+                    authorize_url: "/api/v1/oauth2/authorize",
+                    token_url:     "/api/v1/oauth2/token"
+                  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
